@@ -1,0 +1,67 @@
+{% load static %}
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container d-flex justify-content-between align-items-center">
+      
+      <!-- Botón hamburguesa a la izquierda -->
+      <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarContent"
+              aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Logo centrado visualmente -->
+<a class="navbar-brand mx-auto order-2" href="{% url 'home' %}">
+  <img src="{% static 'img/logo.png' %}" alt="Gabarrón Logo" class="logo-navbar">
+</a>
+
+
+      <!-- Espacio invisible a la derecha para balancear el layout -->
+      <div class="d-lg-none order-3" style="width: 40px;"></div>
+
+      <!-- Contenido del navbar -->
+      <div class="collapse navbar-collapse order-4" id="navbarContent">
+        <ul class="navbar-nav ml-auto">
+
+          {# Ítems visibles solo si hay sesión y es admin o superuser #}
+          {% if user.is_authenticated %}
+            {% if user.is_superuser or user.empleado.es_admin %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'crear_documento' %}">Subir PDF</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'lista_documentos' %}">Documentos</a>
+              </li>
+              {% if user.is_superuser %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'empleado_list' %}">Empleados</a>
+                </li>
+              {% endif %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+              </li>
+            {% endif %}
+          {% endif %}
+
+          {# PDFs visibles solo cuando estamos en la home #}
+          {% if request.path == '/' %}
+            {% for pdf in pdfs %}
+              <li class="nav-item">
+                <button class="btn btn-outline-dark m-1" onclick="mostrarPDF('{% url 'visor_pdf' pdf.pk %}')">
+                  {{ pdf.titulo }}
+                </button>
+              </li>
+            {% empty %}
+              <li class="nav-item">
+                <p class="nav-link text-muted">No hay menús disponibles aún.</p>
+              </li>
+            {% endfor %}
+          {% endif %}
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

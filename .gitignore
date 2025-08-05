@@ -1,0 +1,35 @@
+# Entorno virtual
+venv/
+env/
+
+# Archivos Python compilados
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de logs
+*.log
+
+# Base de datos SQLite (si usás)
+db.sqlite3
+
+# Archivos estáticos recolectados (si usás collectstatic)
+staticfiles/
+
+# Carpeta media (archivos subidos)
+media/
+
+# Configuraciones locales
+*.env
+
+# Docker Compose override
+docker-compose.override.yml
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# MacOS
+.DS_Store
